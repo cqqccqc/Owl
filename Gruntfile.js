@@ -1,12 +1,27 @@
 module.exports = function (grunt) {
 
-
     // config
     grunt.initConfig({
 
         jshint: {
             dev: {
-                src: ['src/owl.js']
+                src: ['src/*.js', 'test/*.js']
+            }
+        },
+        jasmine: {
+            dev: {
+                src: ['src/*.js'],
+                options: {
+                    specs : 'test/OwlTest.js',
+                    keepRunner: true
+                }
+            }
+        },
+
+        watch: {
+            dev: {
+                files: ['src/*.js', 'test/*.js'],
+                tasks: ['jshint:dev', 'jasmine:dev']
             }
         }
     });
@@ -14,7 +29,9 @@ module.exports = function (grunt) {
     // load plugin
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-    // task
-    grunt.registerTask('default', ['jshint:dev']);
+    // dev task
+    grunt.registerTask('dev', ['watch:dev']);
 }
