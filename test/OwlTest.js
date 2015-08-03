@@ -9,8 +9,13 @@ describe("Owl", function(){
 		expect(owl.clone(obj)).toEqual(obj);
 	});
 
-	it("Should be an array", function () {
-		var a = [];
-		expect(Object.prototype.toString.call(a) === "[object Array]").toBeTruthy();
+	it("has mixin function to mix object", function () {
+		var target = {},
+			src1 = {
+				a: 'a',
+				b: 'b',
+				c: [1, 2]
+			};
+		expect(owl.mixin(target, src1)).toEqual(src1);
 	});
 });

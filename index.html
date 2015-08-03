@@ -8,4 +8,12 @@
 		
 	var o = owl.clone(obj);
 	console.log(o);
+	
+	var target = {},
+		src1 = {
+			a: 'a',
+			b: 'b',
+			c: [1, 2]
+		};
+	var s = owl.mixin(target, src1);
 </script>

@@ -1,3 +1,6 @@
+/* global seajs */
+/* global define */
+/* global global */
 
 (function (factory) {
     'use strict';
@@ -53,6 +56,19 @@
         return o;
     };
     
+    
+    owl.mixin = function (target, src) {
+        var srcList = Array.prototype.slice.call(arguments, 1);
+        var listLength = srcList.length;
+        for(var i = 0; i < listLength; i++) {
+            for(var prop in srcList[i]) {
+                if (!target[prop]) {
+                    target[prop] = owl.clone(srcList[i][prop]);
+                }
+            }
+        }
+        return target;
+    };
     
     return owl;
 });
