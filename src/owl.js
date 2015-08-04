@@ -57,7 +57,7 @@
     };
     
     
-    owl.mixin = function (target, src) {
+    owl.extend = function (target, src) {
         var srcList = Array.prototype.slice.call(arguments, 1);
         var listLength = srcList.length;
         for(var i = 0; i < listLength; i++) {
@@ -70,5 +70,10 @@
         return target;
     };
     
+    owl.inherit = function (Child, Parent) {
+        owl.extend(Child.prototype, new Parent());
+        Child.__super__ = Parent;
+        return Child;
+    };
     return owl;
 });
