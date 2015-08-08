@@ -9,13 +9,20 @@ describe("Owl", function(){
 		expect(owl.clone(obj)).toEqual(obj);
 	});
 
-	it("has mixin function to mix object", function () {
+	it("has extend function to mix object", function () {
 		var target = {},
 			src1 = {
 				a: 'a',
 				b: 'b',
 				c: [1, 2]
 			};
-		expect(owl.mixin(target, src1)).toEqual(src1);
+		expect(owl.extend(target, src1)).toEqual(src1);
+		expect(owl.extend(target, src1, src1)).toEqual(src1);
+	});
+
+	it("has trim function to trim string", function() {
+		expect(owl.trim(" aaa ")).toBe("aaa");
+		expect(owl.trim(" aaa ", "bbb")).toBe("bbbaaabbb");
+		expect(owl.trim(" aaa ", {})).toBe("aaa");
 	});
 });
