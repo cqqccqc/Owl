@@ -91,7 +91,7 @@
         return string.replace(/^\s+|\s+$/g, replace);
     };
 
-    // This method is copied from Douglas Crokford's Javascript: The Good Parts
+    // This method is copied from Douglas Crokford's Javascript: The Good Parts 
     owl.parseJSON = function () {
         // 这是一个能把JSON文本解析成Javascript数据结构的函数。
         // 它是一个简单的递归降序解析器。
@@ -315,7 +315,7 @@
             };
 
             // 返回parseJSON 函数。它能访问上述所有的函数和变量
-            return funciton (source, reviver) {
+            return function (source, reviver) {
                 var result;
 
                 text = source;
@@ -347,7 +347,7 @@
                         }
                         return reviver.call(holder, key, value);
                     }({'': result}, '') : result;
-            }
+            };
 
     } ();
     return owl;
