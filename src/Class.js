@@ -2,12 +2,30 @@
 
 var Owl = require('./Core');
 
-var Class = function () {
-	var _class = function () {
-		this.init.apply(this, arguments);
-	};
+var Class = function (Super, properties) {
 
-	_class.prototype.init = _class.prototype.init || function () { };
+	var _class, _proto, _props;
+
+	_class = function () {
+
+	};
+	_props = properties || {};
+	// Check if object
+	if (Owl.isObject(Super)) {
+						
+		// Check if Array
+		if (Owl.isArray(Super)) { }				
+		
+		// ordinary object
+		else {
+			_class.prototype = Class.assign(Class.create(Super), _props);
+		}
+	} else if (Owl.isFunction(Super)) {
+		// Check if constructor
+		_proto = Class.create(Super.prototype);
+		_class.prototype = Class.assign(_proto, _props);
+		_class.prototype._super = Super;
+	}
 
 	return _class;
 };
@@ -18,10 +36,10 @@ Class.create = Object.create || function (proto) {
 	return new F();
 };
 
-Class.assign = Object.assign || function (target, sources) {
+Class.mixin = Class.assign = Object.assign || function (target, sources) {
 	var sourceList = Array.prototype.slice.call(sources, 1);
 	sourceList.forEach(function (source) {
-		if (Object.prototype.toString.apply(source) !== "[object Array]") {
+		if (Owl.isArray(source)) {
 			return;
 		}
 		for (var prop in source) {
@@ -38,9 +56,7 @@ Class.clone = function (obj, deep) {
 	var shallowClone = function (target) {
 		var o = {};
 		for (var prop in target) {
-			if (target.hasOwnProperty(prop)) {
-				o[prop] = target[prop];
-			}
+			o[prop] = target[prop];
 		}
 		return o;
 	};
@@ -50,7 +66,7 @@ Class.clone = function (obj, deep) {
 		if (typeof target === "object") {
 			if (target === null) {
 				o = null
-			} else if (Object.prototype.toString.apply(target) === "[object Array]") {
+			} else if (Owl.isArray(target)) {
 				o = [];
 				for (var i = 0; i < target.length; i++) {
 					o.push(deepClone(target[i]));
