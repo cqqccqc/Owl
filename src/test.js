@@ -24,3 +24,9 @@ var instance3 = new Construct3;
 instance3.a;
 instance3.b;
 instance3.c();
+
+var eventEmitter = new Owl.Event;
+eventEmitter.on("change", function () {
+	console.log("change");
+});
+console.log(eventEmitter.__proto__);
