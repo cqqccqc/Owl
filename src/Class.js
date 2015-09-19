@@ -10,25 +10,27 @@ var Class = function (Super, properties) {
 		this.init.apply(this, arguments);
 	};
 	_props = properties || {};
-	// Check if object
-	if (Owl.isObject(Super)) {
-						
-		// Check if Array
-		if (Owl.isArray(Super)) { }				
-		
-		// ordinary object
-		else {
-			_class.prototype = Class.assign(Class.clone(Super), _props);
-		}
-	} else if (Owl.isFunction(Super)) {
+
+	if (Owl.isFunction(Super)) {
 		// Check if constructor
 		_proto = Class.create(Super.prototype);
 		_class.prototype = Class.assign(_proto, _props);
 		_class.prototype._super = Super;
+	} else if (Owl.isObject(Super)) {
+						
+		// Check if Array
+		if (Owl.isArray(Super)) { }
+		
+		// plain object
+		else {
+			_class.prototype = Super;
+			_class.prototype._super = function () { };
+		}
+	} else {
+		_class.prototype._super = function () { };
 	}
-	
 	// default constructor method
-	_class.prototype.init = _class.prototype.init || function () {}; 
+	_class.prototype.init = _class.prototype.init || function () { this._super.apply(this, arguments); };
 	return _class;
 };
 
@@ -45,7 +47,7 @@ Class.mixin = Class.assign = Object.assign || function (target, sources) {
 			return;
 		}
 		for (var prop in source) {
-			target[prop] = Class.clone(source[prop], true);
+			target[prop] = source[prop];
 		}
 	});
 	return target;

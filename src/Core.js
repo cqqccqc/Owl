@@ -7,10 +7,10 @@ Owl.isObject = function (obj) {
 }
 
 Owl.isFunction = function (func) {
-	return 	Object.prototype.toString.apply(func) === "[object Function]";
+	return typeof func === 'function' || false;
 };
 
-Owl.isArray = function (arr) {
+Owl.isArray = Array.isArray || function (arr) {
 	return 	Object.prototype.toString.apply(arr) === "[object Array]";
 };
 

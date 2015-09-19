@@ -1,13 +1,16 @@
 var Owl = require('./Owl.js');
 
 // Test Class
-var SuperType = function () { };
+var SuperType = function (a) { 
+	this.a = a;
+	console.log(a);
+};
 SuperType.prototype.sayHi = function () {
 	return "Hi";
 }
 var Construct2 = new Owl.Class(SuperType);
-var instance2 = new Construct2;
-instance2.sayHi();
+var instance2 = new Construct2("Construct2 Creates instance");
+console.log(instance2.a);
 
 var SuperType3 = function () { };
 SuperType3.prototype.sayHi = function () {

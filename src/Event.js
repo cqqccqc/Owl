@@ -4,14 +4,13 @@ var Owl = require('./Core');
 
 var Event = new Owl.Class({
 
-	_callbacks: {},
-
 	on: function (event, callback) {
 
 		var events, name;
-		if (Owl.isString(event) || !Owl.isFunction(callback)) {
+		if (!Owl.isString(event) || !Owl.isFunction(callback)) {
 			return this;
 		}
+		this._callbacks = this._callbacks || {};
 		events = event.split(" ");
 		for (var i = 0; i < events.length; i++) {
 			name = events[i];
@@ -29,7 +28,7 @@ var Event = new Owl.Class({
 	off: function (event, callback) {
 
 		var events, name;
-		if (Owl.isString(event) || !Owl.isFunction(callback)) {
+		if (!Owl.isString(event) || !Owl.isFunction(callback)) {
 			return this;
 		}
 
@@ -58,7 +57,7 @@ var Event = new Owl.Class({
 				for(var j = 0; j < this._callbacks[name].length; j++) {
 					callback = this._callbacks[name][j];
 					if(Owl.isFunction(callback)) {
-						callback();
+						callback.apply(this, arguments);
 					} else {
 						continue;
 					}

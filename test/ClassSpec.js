@@ -36,6 +36,20 @@ describe("This test if for Class module", function () {
 		chai.expect(instance3.c()).to.equal("c");
 	});
 
+	it("calls _Super constructor method", function () {
+		var Construct = function (a, b, c) {
+			this.a = a;
+			this.b = b;
+			this.c = c;
+		};
+		var C = new Class.Class(Construct);
+
+		var i = new C(1, 2, 3);
+		chai.expect(i.a).to.eq(1);
+		chai.expect(i.b).to.eq(2);
+		chai.expect(i.c).to.eq(3);
+	});
+
 	it("prototype has init method", function () {
 		var Construct = new Class.Class;
 		chai.expect(Construct).to.be.a('function');
