@@ -34,9 +34,15 @@ var Event = new Owl.Class({
 
 		events = event.split(" ");
 		for (var i = 0; i < events.length; i++) {
-
+			name = events[i];
+			if(name in this._callbacks) {
+				if(callback in this._callbacks[name]) {
+					delete this._callbacks[name];
+				}
+			}
 		}
-
+		
+		return this;
 	},
 
 	once: function () { },
