@@ -79,11 +79,40 @@ var Event = new Owl.Class({
 	listenTo: function (obj, event, callback) {
 		obj.bind(event, callback);
 		this._listenTo = this._listenTo || [];
-		
+		this._listenTo.push({
+			obj: obj,
+			event: event,
+			callback: callback
+		});
+		return this;
 	},
 
 	stopListening: function (obj, event, callback) {
+		var listenTo, newListenTo, events, item, res, i, j;
+		if (!this._listenTo) { return this; }
+		listenTo = this._listenTo;
+		// If there is no argument, remove all listener
+		if (arguments.length === 0) {
+			listenTo.forEach(function (item) {
+				item.obj.unbind(item.event, item.callback);
+			});
+			this._listenTo = void 0;
+		} else if (obj) {
+			events = event.split(' ');
+			for(i = j = 0; j < listenTo.length; i = ++j) {
+				item = listenTo[i];
+				if(item.obj === obj) {
+					item.obj.unbind(item.event, item.callback);
+				}
+				newListenTo = listenTo.slice();
+				newListenTo.splice(i, 1);
+				this._listenTo = newListenTo;
+				break;
+			}
+			this._listenTo = res;
+		}
 
+		return this;
 	},
 
 	trigger: function (event) {

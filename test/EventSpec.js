@@ -59,5 +59,39 @@ describe("This test if for Event module", function () {
 		emit.trigger("change");
 	});
 	
+	it("can listening other object event", function(){
+		var objEvt = new Event.Event;
+		var listenEvt = new Event.Event;
+		
+		var show = function() {
+			console.log("show");
+		};
+		listenEvt.listenTo(objEvt, "change", show);
+		listenEvt.listenTo(objEvt, "change", show);
+		listenEvt.listenTo(objEvt, "change", show);
+		
+		listenEvt.stopListening(objEvt, "change", show);
+		objEvt.trigger("change");
+	});
 	
+	it("can remove all listener", function(){
+		var objEvt = new Event.Event;
+		var listenEvt = new Event.Event;
+		
+		var show = function() {
+			console.log("show");
+		};
+		listenEvt.listenTo(objEvt, "change", show);
+		listenEvt.listenTo(objEvt, "change", show);
+		listenEvt.listenTo(objEvt, "change", show);
+		
+		listenEvt.stopListening(objEvt, "change", show);
+		
+		listenEvt.on("change", show);
+		objEvt.trigger("change");
+		
+		listenEvt.removeAll();
+		chai.expect(listenEvt._callback).to.be.a('undefined');
+		chai.expect(listenEvt._listenTo).to.be.a('undefined');
+	});
 });
