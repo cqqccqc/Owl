@@ -7,7 +7,7 @@ var Class = function (Super, properties) {
 	var _class, _proto, _props;
 
 	_class = function () {
-		this.init.apply(this, arguments);
+		this._init.apply(this, arguments);
 	};
 	_props = properties || {};
 
@@ -15,7 +15,7 @@ var Class = function (Super, properties) {
 		// Check if constructor
 		_proto = Class.create(Super.prototype);
 		_class.prototype = Class.assign(_proto, _props);
-		_class.prototype._super = Super;
+		_class.prototype._super = Super.prototype.init;
 	} else if (Owl.isObject(Super)) {
 						
 		// Check if Array
@@ -24,13 +24,11 @@ var Class = function (Super, properties) {
 		// plain object
 		else {
 			_class.prototype = Super;
-			_class.prototype._super = function () { };
 		}
 	} else {
-		_class.prototype._super = function () { };
 	}
 	// default constructor method
-	_class.prototype.init = _class.prototype.init || function () { this._super.apply(this, arguments); };
+	_class.prototype._init = _class.prototype._init || function () { if (Owl.isFunction(this._super)) this._super.apply(this, arguments); };
 	return _class;
 };
 

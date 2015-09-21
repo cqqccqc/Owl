@@ -1,7 +1,7 @@
 var Owl = require('./Owl.js');
 
 // Test Class
-var SuperType = function (a) { 
+var SuperType = function (a) {
 	this.a = a;
 	console.log(a);
 };
@@ -33,3 +33,18 @@ eventEmitter.on("change", function () {
 	console.log("change");
 });
 console.log(eventEmitter.__proto__);
+
+// Test Event
+var Controller = Owl.Class(Owl.Event, {
+
+});
+var controller = new Controller;
+function show(a) { console.log("call show" + a); };
+controller.on("change", show.bind(this, 1));
+controller.on("change", show.bind(this, 1));
+controller.on("change", show.bind(this, 1));
+//console.log(controller._callbacks);
+controller.off("change", show.bind(this, 1));
+console.log(controller._callbacks);
+
+controller.trigger("change");

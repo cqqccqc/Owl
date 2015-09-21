@@ -18,4 +18,5 @@ Owl.isString = function (str) {
 	return Object.prototype.toString.apply(str) === "[object String]";
 };
 
+
 exports = module.exports = Owl;

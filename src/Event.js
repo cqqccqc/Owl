@@ -15,67 +15,101 @@ var Event = new Owl.Class({
 		for (var i = 0; i < events.length; i++) {
 			name = events[i];
 			if (name in this._callbacks) {
-
 			} else {
 				this._callbacks[name] = [];
 			}
 			this._callbacks[name].push(callback);
+
 		}
 
 		return this;
+	},
+
+	bind: function () {
+		return this.on.apply(this, arguments);
 	},
 
 	off: function (event, callback) {
 
-		var events, name;
-		if (!Owl.isString(event) || !Owl.isFunction(callback)) {
+		var events, name, cbList, newCbList, cb, i, j, k;
+		if (!Owl.isString(event)) {
 			return this;
 		}
+		if (!this._callbacks) return;
 
 		events = event.split(" ");
-		for (var i = 0; i < events.length; i++) {
+		for (i = 0; i < events.length; i++) {
 			name = events[i];
-			if(name in this._callbacks) {
-				if(callback in this._callbacks[name]) {
+			if (name in this._callbacks) {
+				cbList = this._callbacks[name];
+				if (!callback) {
 					delete this._callbacks[name];
+					continue;
+				}
+				
+				// check if the callback in the event callback array in a loop
+				for (j = k = 0; k < cbList.length; k = ++j) {
+					cb = cbList[j];
+					if (cb !== callback) {
+						continue;
+					}
+					newCbList = cbList.slice();
+					newCbList.splice(j, 1);
+					this._callbacks[name] = newCbList;
+					break;
 				}
 			}
 		}
-		
+
 		return this;
 	},
 
-	once: function () { },
+	unbind: function () {
+		return this.off.apply(this, arguments);
+	},
 
-	listenTo: function () { },
+	once: function (event, callback) {
+		var handler = function () {
+			this.off(event, handler);
+			return callback.apply(this, arguments);
+		}.bind(this);
+		return this.on(event, handler);
+	},
 
-	stopListening: function () { },
+	listenTo: function (obj, event, callback) {
+		obj.bind(event, callback);
+		this._listenTo = this._listenTo || [];
+		
+	},
 
-	trigger: function (event) { 
+	stopListening: function (obj, event, callback) {
+
+	},
+
+	trigger: function (event) {
 		var events, name, callback;
-		if(!Owl.isString(event)){
+		if (!Owl.isString(event)) {
 			return this;
 		}
 		events = event.split(" ");
-		for(var i = 0; i <events.length; i++) {
+		for (var i = 0; i < events.length; i++) {
 			name = events[i];
-			if(name in this._callbacks) {
-				for(var j = 0; j < this._callbacks[name].length; j++) {
+			if (name in this._callbacks) {
+				for (var j = 0; j < this._callbacks[name].length; j++) {
 					callback = this._callbacks[name][j];
-					if(Owl.isFunction(callback)) {
-						callback.apply(this, arguments);
-					} else {
-						continue;
-					}
+					callback();
 				}
 			} else {
 				continue;
 			}
-		} 
+		}
+
+		return this;
 	},
 
 	removeAll: function () {
-		this._callbacks = {};
+		this._callbacks = void 0;
+		this._listenTo = void 0;
 		return this;
 	}
 });
