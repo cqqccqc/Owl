@@ -48,3 +48,6 @@ controller.off("change", show.bind(this, 1));
 console.log(controller._callbacks);
 
 controller.trigger("change");
+
+
+// Test View
