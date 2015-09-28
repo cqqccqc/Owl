@@ -99,9 +99,9 @@ var Event = new Owl.Class({
 			this._listenTo = void 0;
 		} else if (obj) {
 			events = event.split(' ');
-			for(i = j = 0; j < listenTo.length; i = ++j) {
+			for (i = j = 0; j < listenTo.length; i = ++j) {
 				item = listenTo[i];
-				if(item.obj === obj) {
+				if (item.obj === obj) {
 					item.obj.unbind(item.event, item.callback);
 				}
 				newListenTo = listenTo.slice();
