@@ -51,3 +51,13 @@ controller.trigger("change");
 
 
 // Test View
+
+// Test abstract model
+var model1 = new Owl.AbstractModel;
+var model2 = new Owl.AbstractModel;
+var model3 = new Owl.AbstractModel;
+var model4 = new Owl.AbstractModel;
+console.log(model1);
+console.log(model2);
+console.log(model3);
+console.log(model4);

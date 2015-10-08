@@ -19,4 +19,13 @@ Owl.isString = function (str) {
 };
 
 
+Owl.uniqueIdGenerator = function(prefix) {
+	var idCounter = 0;
+	return function(){
+		var id = ++idCounter + '';	
+		return prefix? prefix + id : id;
+	}
+	
+}
+
 exports = module.exports = Owl;
