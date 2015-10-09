@@ -11,21 +11,17 @@ Owl.isFunction = function (func) {
 };
 
 Owl.isArray = Array.isArray || function (arr) {
-	return 	Object.prototype.toString.apply(arr) === "[object Array]";
+	return Object.prototype.toString.apply(arr) === "[object Array]";
 };
 
 Owl.isString = function (str) {
 	return Object.prototype.toString.apply(str) === "[object String]";
 };
 
-
-Owl.uniqueIdGenerator = function(prefix) {
-	var idCounter = 0;
-	return function(){
-		var id = ++idCounter + '';	
-		return prefix? prefix + id : id;
-	}
-	
+var idCounter = 0;
+Owl.uniqueId = function (prefix) {
+	var id = ++idCounter + '';
+	return prefix ? prefix + id : id;
 }
 
 exports = module.exports = Owl;

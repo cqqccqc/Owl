@@ -5,13 +5,11 @@ var Class = Owl.Class;
 
 var AbstractModel = new Owl.Class(Event, {
 
-	uniqueIdGen: Owl.uniqueIdGenerator('model-'),
-
 	_init: function (attributes, options) {
 		if (Owl.isFunction(this._super)) this._super.apply(this, arguments);
 
 		var attrs = attributes;
-		this.uniqueId = this.uniqueIdGenerator();
+		this.uniqueId = Owl.uniqueId('model-')
 		this.attributes = {};
 		this.set(attrs, options);
 		this.initialize.apply(this, arguments);
@@ -24,26 +22,40 @@ var AbstractModel = new Owl.Class(Event, {
 	},
 
 	set: function (key, value, options) {
-		
+		var attr, attrs, current;
 		if (key == null) return this;
 		
-		// Hanlde key-value and {key: value} style
-		if(Owl.isObject(key)) {
-			
+		// Hanlde 'key,value' and '{key: value}' style
+		if (Owl.isObject(key)) {
+			attrs = key;
+			options = value;
+		} else {
+			(attrs = {})[key] = value;
 		}
+
+		options || (options = {});
 		
+		// Copy attrs
+		current = this.attributes;
+		for (attr in attrs) {
+			current[attr] = attrs[attr];
+		}
 		// Trigger change event
 		this.trigger('change');
+
+		return this;
 	},
-	
-	has: function(attr) {
+
+	has: function (attr) {
 		return this.get(attr) !== null;
 	},
 
+	// Return a copy of the attributes
 	toJS: function () {
-		return this.attributes;
+		return Class.clone(this.attributes, true);
 	},
 
+	// Return a string of the attributes
 	toJSON: function () {
 		return JSON.stringify(this.attributes);
 	}
