@@ -67,7 +67,7 @@ Class.clone = function (obj, deep) {
 		var o;
 		if (typeof target === "object") {
 			if (target === null) {
-				o = null
+				o = null;
 			} else if (Owl.isArray(target)) {
 				o = [];
 				for (var i = 0; i < target.length; i++) {

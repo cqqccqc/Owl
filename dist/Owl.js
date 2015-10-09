@@ -1,54 +1,12 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
-
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
-
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-
-
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ([
+webpackJsonp([0],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Core = __webpack_require__(1);
-	var Class = __webpack_require__(2);
-	var Event = __webpack_require__(3);
-	var AbstractView = __webpack_require__(4);
-	var AbstractModel = __webpack_require__(5);
+	var Class = __webpack_require__(4);
+	var Event = __webpack_require__(5);
+	var AbstractView = __webpack_require__(6);
+	var AbstractModel = __webpack_require__(7);
 
 
 	var Owl = Core;
@@ -57,11 +15,18 @@
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
+	// require $ T;
+	var $ = __webpack_require__(2);
+	var T = __webpack_require__(3);
+
 	var Owl = Owl || {};
+
+	Owl.$ = $;
+	Owl.T = T;
 
 	Owl.isObject = function (obj) {
 		return typeof obj === "object" && obj !== null;
@@ -72,27 +37,25 @@
 	};
 
 	Owl.isArray = Array.isArray || function (arr) {
-		return 	Object.prototype.toString.apply(arr) === "[object Array]";
+		return Object.prototype.toString.apply(arr) === "[object Array]";
 	};
 
 	Owl.isString = function (str) {
 		return Object.prototype.toString.apply(str) === "[object String]";
 	};
 
-
-	Owl.uniqueIdGenerator = function(prefix) {
-		var idCounter = 0;
-		return function(){
-			var id = ++idCounter + '';	
-			return prefix? prefix + id : id;
-		}
-		
+	var idCounter = 0;
+	Owl.uniqueId = function (prefix) {
+		var id = ++idCounter + '';
+		return prefix ? prefix + id : id;
 	}
 
 	exports = module.exports = Owl;
 
 /***/ },
-/* 2 */
+/* 2 */,
+/* 3 */,
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -164,7 +127,7 @@
 			var o;
 			if (typeof target === "object") {
 				if (target === null) {
-					o = null
+					o = null;
 				} else if (Owl.isArray(target)) {
 					o = [];
 					for (var i = 0; i < target.length; i++) {
@@ -194,7 +157,7 @@
 	exports = module.exports = Owl;
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -346,7 +309,7 @@
 	exports = module.exports = Owl;
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -355,29 +318,47 @@
 
 	var AbstractView = new Owl.Class(Event, {	
 		// some default configuration
-		uniqueIdGen: Owl.uniqueIdGenerator('view-'),
+		
 		// The real construct method
 		_init: function () {
 			if (Owl.isFunction(this._super)) this._super.apply(this, arguments);
-			this.uniqueId = this.uniqueIdGen();
+			this.uniqueId = Owl.uniqueId('view-');
+			this._createElement();
 			this.initialize.apply(this, arguments);
 		},
 
+		id: '',
 		tagName: 'div',
+		className: '',
+		attribute: {},
 
+		_createElement: function () {
+			var attr;
+			var el = this.el = document.createElement(this.tagName);
+			el.setAttribute('id', this.id);
+			el.setAttribute('class', this.className);
+			for (attr in this.attribute) {
+				if (this.attribute.hasOwnProperty(attr)) {
+					el[attr] = this.attribute[attr];
+				}
+			}
+		},
+		
 		// override this initialize method
 		initialize: function () { },
 
-		render: function () { return this; }
+		render: function () { return this; },
 
-
+		remove: function () {
+			
+		}
 	});
 
 	Owl.AbstractView = AbstractView;
 	exports = module.exports = Owl;
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -387,13 +368,11 @@
 
 	var AbstractModel = new Owl.Class(Event, {
 
-		uniqueIdGen: Owl.uniqueIdGenerator('model-'),
-
 		_init: function (attributes, options) {
 			if (Owl.isFunction(this._super)) this._super.apply(this, arguments);
 
 			var attrs = attributes;
-			this.uniqueId = this.uniqueIdGenerator();
+			this.uniqueId = Owl.uniqueId('model-');
 			this.attributes = {};
 			this.set(attrs, options);
 			this.initialize.apply(this, arguments);
@@ -406,26 +385,40 @@
 		},
 
 		set: function (key, value, options) {
+			var attr, attrs, current;
+			if (key === null) return this;
 			
-			if (key == null) return this;
-			
-			// Hanlde key-value and {key: value} style
-			if(Owl.isObject(key)) {
-				
+			// Hanlde 'key,value' and '{key: value}' style
+			if (Owl.isObject(key)) {
+				attrs = key;
+				options = value;
+			} else {
+				(attrs = {})[key] = value;
 			}
+
+			options = options || {};
 			
+			// Copy attrs
+			current = this.attributes;
+			for (attr in attrs) {
+				current[attr] = attrs[attr];
+			}
 			// Trigger change event
 			this.trigger('change');
+
+			return this;
 		},
-		
-		has: function(attr) {
+
+		has: function (attr) {
 			return this.get(attr) !== null;
 		},
 
+		// Return a copy of the attributes
 		toJS: function () {
-			return this.attributes;
+			return Class.clone(this.attributes, true);
 		},
 
+		// Return a string of the attributes
 		toJSON: function () {
 			return JSON.stringify(this.attributes);
 		}
@@ -435,4 +428,4 @@
 	exports = module.exports = Owl;
 
 /***/ }
-/******/ ]);
+]);

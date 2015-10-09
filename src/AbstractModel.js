@@ -9,7 +9,7 @@ var AbstractModel = new Owl.Class(Event, {
 		if (Owl.isFunction(this._super)) this._super.apply(this, arguments);
 
 		var attrs = attributes;
-		this.uniqueId = Owl.uniqueId('model-')
+		this.uniqueId = Owl.uniqueId('model-');
 		this.attributes = {};
 		this.set(attrs, options);
 		this.initialize.apply(this, arguments);
@@ -23,7 +23,7 @@ var AbstractModel = new Owl.Class(Event, {
 
 	set: function (key, value, options) {
 		var attr, attrs, current;
-		if (key == null) return this;
+		if (key === null) return this;
 		
 		// Hanlde 'key,value' and '{key: value}' style
 		if (Owl.isObject(key)) {
@@ -33,7 +33,7 @@ var AbstractModel = new Owl.Class(Event, {
 			(attrs = {})[key] = value;
 		}
 
-		options || (options = {});
+		options = options || {};
 		
 		// Copy attrs
 		current = this.attributes;

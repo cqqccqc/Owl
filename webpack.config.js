@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ignoreFiles = new webpack.IgnorePlugin(/\.\/jquery-last.js$/);
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js');
 
@@ -9,7 +10,7 @@ var bulidPath = './dist/';
 module.exports = {
   entry: {
     Owl: srcPath + 'Owl.js',
-
+    vendor: ['./lib/zepto', './lib/template']
   },
   output: {
     path: bulidPath,
@@ -17,10 +18,11 @@ module.exports = {
   },
 
   plugins: [
-      //commonsPlugin
+      commonsPlugin
       //new ExtractTextPlugin("style.css")
     ],
-
+  
+  
   module: {
     loaders: [
       //.css 文件使用 style-loader 和 css-loader 来处理
