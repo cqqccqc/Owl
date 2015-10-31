@@ -1,7 +1,7 @@
 "use strict";
 var Owl = require('./Core');
 
-var AbstractRouter = Owl.Class({
+var AbstractRouter = new Owl.Class({
 	
 });
 
