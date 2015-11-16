@@ -50,7 +50,11 @@ console.log(controller._callbacks);
 controller.trigger("change");
 
 
-// Test View
+// Test abstract View
+var view1 = new Owl.AbstractView;
+var view2 = new Owl.AbstractView;
+console.log(view1);
+console.log(view2);
 
 // Test abstract model
 var model1 = new Owl.AbstractModel;

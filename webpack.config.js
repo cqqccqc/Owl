@@ -18,7 +18,10 @@ module.exports = {
   },
 
   plugins: [
-      commonsPlugin
+      commonsPlugin,
+      new webpack.ProvidePlugin({
+            $: '../lib/zepto'
+      }),
       //new ExtractTextPlugin("style.css")
     ],
   

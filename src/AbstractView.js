@@ -17,6 +17,7 @@ var AbstractView = new Owl.Class(Event, {
 	tagName: 'div',
 	className: '',
 	attribute: {},
+	model: null,
 
 	$: function (selector) {
 		return this.$el.find(selector);
