@@ -3,7 +3,7 @@ var Owl = require('./Core');
 var Event = Owl.Event;
 var Class = Owl.Class;
 
-var AbstractModel = new Owl.Class(Event, {
+var AbstractModel = new Class(Event, {
 
 	_init: function (attributes, options) {
 		if (Owl.isFunction(this._super)) this._super.apply(this, arguments);
