@@ -5,7 +5,7 @@ var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js
 
 var srcPath = './src/';
 
-var bulidPath = './dist/';
+var buildPath = './dist/';
 
 module.exports = {
   entry: {
@@ -13,7 +13,7 @@ module.exports = {
     vendor: ['./lib/zepto', './lib/template']
   },
   output: {
-    path: bulidPath,
+    path: buildPath,
     filename: '[name].js'
   },
 

@@ -128,8 +128,6 @@ var Event = new Owl.Class({
 					callback = this._callbacks[name][j];
 					callback();
 				}
-			} else {
-				continue;
 			}
 		}
 

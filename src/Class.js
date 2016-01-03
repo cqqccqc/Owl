@@ -28,7 +28,8 @@ var Class = function (Super, properties) {
 		}
 	}
 	// default constructor method
-	_class.prototype._init = _class.prototype._init || function () { if (Owl.isFunction(this._super)) this._super.apply(this, arguments); };
+	_class.prototype._init = _class.prototype._init ||
+			function () { if (Owl.isFunction(this._super)) this._super.apply(this, arguments); };
 	return _class;
 };
 

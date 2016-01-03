@@ -4,7 +4,9 @@
   "description": "A Small Javascript Funciton Lib",
   "main": "owl.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "build": "webpack -d -p",
+    "watch": "webpack -d --watch"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-var Owl = require('./Owl.js');
+var Owl = require('./src/Owl.js');
 
 // Test Class
 var SuperType = function (a) {

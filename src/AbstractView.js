@@ -57,12 +57,12 @@ var AbstractView = new Owl.Class(Event, {
 	},
 
 	undelegateEvents: function () {
-		if (this.$el) this.$el.off('.delegateEvents' + this.cid);
+		if (this.$el) this.$el.off('.delegateEvents' + this.uniqueId);
 		return this;
 	},
 
 	_undelegate: function (eventName, selector, listener) {
-		this.$el.off(eventName + '.delegateEvents' + this.cid, selector, listener);
+		this.$el.off(eventName + '.delegateEvents' + this.uniqueId, selector, listener);
 		return this;
     },
 

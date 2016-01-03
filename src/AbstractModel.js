@@ -25,7 +25,7 @@ var AbstractModel = new Class(Event, {
 		var attr, attrs, current;
 		if (key === null) return this;
 		
-		// Hanlde 'key,value' and '{key: value}' style
+		// Handle 'key,value' and '{key: value}' style
 		if (Owl.isObject(key)) {
 			attrs = key;
 			options = value;
@@ -33,7 +33,6 @@ var AbstractModel = new Class(Event, {
 			(attrs = {})[key] = value;
 		}
 
-		options = options || {};
 		
 		// Copy attrs
 		current = this.attributes;
@@ -52,6 +51,7 @@ var AbstractModel = new Class(Event, {
 
 	// Return a copy of the attributes
 	toJS: function () {
+		// true for deep copy
 		return Class.clone(this.attributes, true);
 	},
 
